@@ -5,6 +5,7 @@ import Hero from '../components/home/Hero';
 import ValueProposition from '../components/home/ValueProposition';
 import TestimonialsSlider from '../components/shared/TestimonialsSlider';
 import ChatWidget from '../components/shared/ChatWidget';
+import GetInTouch from '../components/home/GetInTouch';
 
 const QuickLinks = () => {
   return (
@@ -342,52 +343,6 @@ const FooterQuickLinks = () => {
   );
 };
 
-const FooterNewsletter = () => {
-  return (
-    <div>
-      <h3 className="text-lg font-bold mb-4 text-white">Newsletter Signup</h3>
-      <p className="text-gray-300 mb-4">Get the latest updates from OUROWN</p>
-      
-      <form className="flex flex-col sm:flex-row gap-2">
-        <input 
-          type="email" 
-          placeholder="Your email address" 
-          className="px-4 py-2 rounded-lg flex-grow focus:outline-none"
-        />
-        <button 
-          type="submit" 
-          className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-300"
-        >
-          Subscribe
-        </button>
-      </form>
-      
-      <div className="mt-6">
-        <h4 className="text-white font-medium mb-3">Follow Us</h4>
-        <div className="flex space-x-4">
-          {[
-            { name: 'linkedin', url: 'https://linkedin.com/ourownecosystem' },
-            { name: 'twitter', url: 'https://twitter.com/ourownecosystem' },
-            { name: 'youtube', url: 'https://youtube.com/ourownecosystem' }
-          ].map((platform) => (
-            <a 
-              key={platform.name} 
-              href={platform.url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-300 hover:text-white transition-colors duration-300"
-            >
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors duration-300">
-                <span className="capitalize">{platform.name.charAt(0)}</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const testimonials = [
   {
     quote: "OUROWN's ecosystem approach has transformed how we engage with startups, leading to three successful proof-of-concept integrations in just six months.",
@@ -445,50 +400,13 @@ const HomePage = () => {
         </div>
       </section>
       
+      {/* Get in Touch Section */}
+      <GetInTouch />
+      
       {/* Partner Logos */}
       <PartnerLogos />
       
-      {/* Footer with Quick Links, Newsletter, Social Media */}
-      <footer className="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            <div className="lg:col-span-1">
-              <div className="mb-6">
-                <h2 className="text-3xl font-bold text-white mb-4">OUROWN</h2>
-                <p className="text-gray-300">
-                  Empowering entrepreneurs and organizations to innovate, collaborate, and grow.
-                </p>
-              </div>
-            </div>
-            
-            <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <FooterQuickLinks />
-                <FooterNewsletter />
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-300 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} OUROWN Entrepreneurs Solution India Ltd. All rights reserved.
-            </div>
-            
-            <div className="flex space-x-6">
-              <Link to="/privacy-policy" className="text-gray-300 hover:text-white text-sm transition-colors duration-300">
-                Privacy Policy
-              </Link>
-              <Link to="/terms-of-service" className="text-gray-300 hover:text-white text-sm transition-colors duration-300">
-                Terms of Use
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
-      
       {/* AI Chatbot Widget */}
-      {/* Persistent chat icon in bottom corner with greeting: "Hi there! How can OUROWN help you today?" */}
-      {/* Supports FAQs, form pre-fill, and live handoff to the team */}
       <ChatWidget />
     </div>
   );

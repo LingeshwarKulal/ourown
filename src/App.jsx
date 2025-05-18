@@ -5,6 +5,9 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './utils/ScrollToTop';
 import HomePage from './pages/HomePage';
+import Contact from './pages/Contact';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/AdminLogin';
 
 // Import pages
 import HomeNew from './pages/HomeNew';
@@ -42,7 +45,7 @@ import DigitalTransformation from './pages/solutions/DigitalTransformation';
 import PrivacyPolicy from './pages/legal/PrivacyPolicy';
 import TermsOfUse from './pages/legal/TermsOfUse';
 import CookiePolicy from './pages/legal/CookiePolicy';
-import DataProtectionGuidelines from './pages/legal/DataProtectionGuidelines';
+import DataProtection from './pages/legal/DataProtection';
 
 // Import ecosystem subpages
 import AssociateBodies from './pages/ecosystem/AssociateBodies';
@@ -92,7 +95,6 @@ const PageLayout = ({ children }) => {
           </motion.div>
         </AnimatePresence>
       </main>
-      <Footer />
       <ChatWidget />
     </>
   );
@@ -103,8 +105,13 @@ function App() {
     <Router>
       <ScrollToTop />
       <div className="app-container">
+        <Navbar />
         <main>
           <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route
               path="/"
               element={
@@ -277,7 +284,7 @@ function App() {
             } />
             <Route path="/legal/data-protection-guidelines" element={
               <PageLayout>
-                <DataProtectionGuidelines />
+                <DataProtection />
               </PageLayout>
             } />
             
@@ -309,6 +316,8 @@ function App() {
             } />
           </Routes>
         </main>
+        <Footer />
+        <ChatWidget />
       </div>
     </Router>
   );

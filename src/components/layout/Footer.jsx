@@ -1,20 +1,15 @@
-import { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import logoImage from '../../assets/images/logo.jpg';
+import { motion } from 'framer-motion';
+import logoImage from '../../assets/images/logo-ourown.svg';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+// Log the API URL to verify environment variable is working
+console.log('API URL from environment:', import.meta.env.VITE_API_URL);
+console.log('Final API URL with fallback:', API_URL);
 
 const Footer = () => {
-  const [email, setEmail] = useState('');
-  const [subscribeStatus, setSubscribeStatus] = useState(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real application, you would send the email to your server/API
-    setSubscribeStatus('success');
-    setTimeout(() => setSubscribeStatus(null), 3000);
-    setEmail('');
-  };
-
   const footerLinks = [
     {
       title: 'Company',
@@ -22,8 +17,7 @@ const Footer = () => {
         { name: 'About Us', path: '/about-us' },
         { name: 'Leadership', path: '/about-us/leadership' },
         { name: 'Partners', path: '/about-us/partners' },
-        { name: 'Careers', path: '/about-us/careers' },
-        { name: 'Privacy Policy', path: '/privacy-policy' },
+        { name: 'Careers', path: '/about-us/careers' }
       ]
     },
     {
@@ -33,7 +27,7 @@ const Footer = () => {
         { name: 'Participating Companies', path: '/ecosystem/participating-companies' },
         { name: 'Incubation Model', path: '/ecosystem/troup-based-incubation-model' },
         { name: 'Mentors', path: '/ecosystem/mentorship-network' },
-        { name: 'Industry Partners', path: '/ecosystem/industry-partners' },
+        { name: 'Industry Partners', path: '/ecosystem/industry-partners' }
       ]
     },
     {
@@ -43,7 +37,7 @@ const Footer = () => {
         { name: 'Startup Incubation', path: '/solutions-services/startup-incubation-packages' },
         { name: 'MSME Support', path: '/solutions-services/msme-support-schemes' },
         { name: 'Wanapreneur Programs', path: '/solutions-services/wanapreneur-programs' },
-        { name: 'Digital Transformation', path: '/solutions-services/digital-transformation-training' },
+        { name: 'Digital Transformation', path: '/solutions-services/digital-transformation-training' }
       ]
     },
     {
@@ -53,9 +47,18 @@ const Footer = () => {
         { name: 'Whitepapers', path: '/resources/whitepapers' },
         { name: 'Events & Webinars', path: '/resources/events' },
         { name: 'Tools & Templates', path: '/resources/tools' },
-        { name: 'Media Library', path: '/resources/media' },
+        { name: 'Media Library', path: '/resources/media' }
       ]
     },
+    {
+      title: 'Legal',
+      links: [
+        { name: 'Privacy Policy', path: '/legal/privacy-policy' },
+        { name: 'Terms of Use', path: '/legal/terms-of-use' },
+        { name: 'Cookie Policy', path: '/legal/cookie-policy' },
+        { name: 'Data Protection', path: '/legal/data-protection-guidelines' }
+      ]
+    }
   ];
 
   const socialLinks = [
@@ -63,7 +66,7 @@ const Footer = () => {
     { name: 'Twitter', path: 'https://twitter.com', icon: 'twitter' },
     { name: 'LinkedIn', path: 'https://linkedin.com', icon: 'linkedin' },
     { name: 'Instagram', path: 'https://instagram.com', icon: 'instagram' },
-    { name: 'YouTube', path: 'https://youtube.com', icon: 'youtube' },
+    { name: 'YouTube', path: 'https://youtube.com', icon: 'youtube' }
   ];
 
   // SVG icons for social media
@@ -72,7 +75,7 @@ const Footer = () => {
     twitter: <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />,
     linkedin: <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />,
     instagram: <><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /></>,
-    youtube: <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />,
+    youtube: <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
   };
 
   return (
@@ -87,14 +90,14 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Logo and company info */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <Link to="/" className="inline-block mb-6">
               <motion.img 
                 src={logoImage} 
                 alt="OUROWN" 
                 className="h-14 w-auto object-contain"
                 whileHover={{ scale: 1.05 }}
-                style={{ filter: "brightness(1.2) drop-shadow(0px 2px 4px rgba(255,255,255,0.2))" }}
+                style={{ filter: "drop-shadow(0px 2px 4px rgba(255,255,255,0.2))" }}
               />
             </Link>
             <p className="text-white/80 text-sm leading-relaxed mb-6 max-w-sm">
@@ -160,81 +163,10 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* Newsletter Subscription */}
-        <div className="relative bg-gradient-to-r from-indigo-800/50 to-purple-800/50 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/10 overflow-hidden shadow-xl">
-          <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 blur-3xl opacity-30"></div>
-          <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-gradient-to-br from-indigo-400 to-fuchsia-500 blur-3xl opacity-30"></div>
-          
-          <div className="md:flex items-center justify-between relative z-10">
-            <div className="mb-6 md:mb-0 md:pr-6">
-              <h4 className="text-xl text-white font-bold mb-2">Stay Updated</h4>
-              <p className="text-white/80 max-w-md">Subscribe to our newsletter for the latest updates on entrepreneurship news, events, and resources.</p>
-            </div>
-            
-            <div className="flex-shrink-0 w-full md:w-auto">
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative w-full sm:w-auto">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="px-4 py-3 pr-10 rounded-lg w-full sm:w-64 bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                    required
-                  />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white/40" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                  </div>
-                </div>
-                
-                <motion.button
-                  type="submit"
-                  className="py-3 px-6 rounded-lg bg-white text-indigo-900 font-medium shadow-xl transition-all duration-300 hover:translate-y-[-2px] hover:shadow-white/30"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Subscribe
-                </motion.button>
-              </form>
-              
-              <AnimatePresence>
-                {subscribeStatus === 'success' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="text-green-400 mt-2 text-sm font-medium"
-                  >
-                    Successfully subscribed to our newsletter!
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
         {/* Footer Bottom */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-white/60 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} OUROWN. All rights reserved.
-          </div>
-          
-          <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
-            <Link to="/terms" className="text-white/60 hover:text-white text-sm transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/privacy" className="text-white/60 hover:text-white text-sm transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/cookies" className="text-white/60 hover:text-white text-sm transition-colors">
-              Cookie Policy
-            </Link>
-            <Link to="/sitemap" className="text-white/60 hover:text-white text-sm transition-colors">
-              Sitemap
-            </Link>
+        <div className="pt-8 border-t border-white/10 flex justify-center">
+          <div className="text-white/60 text-sm">
+            &copy; {new Date().getFullYear()} OUROWN Entrepreneurs Solution India Ltd. All rights reserved.
           </div>
         </div>
       </div>

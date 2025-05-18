@@ -395,35 +395,6 @@ function HomeNew() {
           </div>
         </div>
       </section>
-      
-      {/* Newsletter */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
-        <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
-              <p className="text-gray-600 mb-6">Subscribe to our newsletter for the latest entrepreneurship insights and opportunities.</p>
-              
-              <form className="flex flex-col sm:flex-row gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  className="flex-1 input focus:ring-primary-500 focus:border-primary-500"
-                  required
-                />
-                <button 
-                  type="submit" 
-                  className="btn-primary rounded-lg whitespace-nowrap"
-                >
-                  Subscribe
-                </button>
-              </form>
-              
-              <p className="text-gray-500 text-sm mt-4">We respect your privacy. Unsubscribe at any time.</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

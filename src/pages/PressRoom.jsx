@@ -262,28 +262,6 @@ function PressRoom() {
           </div>
         </div>
       </div>
-
-      {/* Newsletter Signup */}
-      <div className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6">Stay Updated</h2>
-            <p className="text-lg mb-8">
-              Subscribe to our press mailing list to receive the latest announcements and updates directly in your inbox.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="px-4 py-3 rounded-lg bg-white text-gray-900 w-full sm:w-96"
-              />
-              <button className="bg-blue-600 hover:bg-blue-700 border border-blue-600 text-white font-bold py-3 px-6 rounded-lg">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

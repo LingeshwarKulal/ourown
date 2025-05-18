@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -76,6 +76,7 @@ module.exports = {
         serif: ['Playfair Display', 'Georgia', 'serif'],
         display: ['Clash Display', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        'display': ['Space Grotesk', 'sans-serif'],
       },
       boxShadow: {
         'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import logoImage from '../../assets/images/logo.jpg';
+import logoImage from '../../assets/images/logo-ourown.svg';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -107,12 +107,12 @@ const Navbar = () => {
               initial={{ filter: "brightness(1)" }}
               whileHover={{ 
                 scale: 1.05,
-                filter: "brightness(1.1) drop-shadow(0 0 8px rgba(72, 55, 230, 0.5))"
+                filter: isScrolled ? "drop-shadow(0px 1px 4px rgba(0,0,0,0.2))" : "drop-shadow(0px 2px 4px rgba(255,255,255,0.3))"
               }}
               style={{ 
                 filter: isScrolled 
                   ? "drop-shadow(0px 1px 2px rgba(0,0,0,0.1))" 
-                  : "brightness(1.2) drop-shadow(0px 2px 4px rgba(255,255,255,0.3))",
+                  : "drop-shadow(0px 2px 4px rgba(255,255,255,0.3))",
                 maxHeight: isScrolled ? "50px" : "56px"
               }} 
             />
