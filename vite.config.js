@@ -6,6 +6,15 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [
     react(),
+    // Add a plugin to run before the build to prevent Rollup errors
+    {
+      name: 'skip-rollup-native-warnings',
+      enforce: 'pre',
+      buildStart() {
+        // Set environment variable to skip native module warnings
+        process.env.ROLLUP_SKIP_NAPI_WARN = 'true';
+      }
+    }
   ],  server: {
     port: 5173,
     strictPort: false,
