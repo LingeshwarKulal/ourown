@@ -13,7 +13,6 @@ const ContactForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState('');
 
   const validateForm = () => {
     const newErrors = {};
@@ -32,25 +31,12 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitError('');
     
     if (validateForm()) {
       setIsSubmitting(true);
-      try {
-        const response = await fetch('http://localhost:5000/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to send message');
-        }
-
+      
+      // Simulate form submission with a delay
+      setTimeout(() => {
         // Show success message
         setShowSuccess(true);
         
@@ -63,16 +49,13 @@ const ContactForm = () => {
           message: ''
         });
         
+        setIsSubmitting(false);
+        
         // Hide success message after 5 seconds
         setTimeout(() => {
           setShowSuccess(false);
         }, 5000);
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        setSubmitError(error.message || 'Failed to send message. Please try again later.');
-      } finally {
-        setIsSubmitting(false);
-      }
+      }, 1000);
     }
   };
 
@@ -110,30 +93,6 @@ const ContactForm = () => {
             <button
               onClick={() => setShowSuccess(false)}
               className="text-green-800 hover:text-green-900"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </motion.div>
-        )}
-
-        {submitError && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-4 left-4 right-4 bg-red-100 text-red-800 px-6 py-4 rounded-lg flex items-center justify-between"
-          >
-            <div className="flex items-center">
-              <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {submitError}
-            </div>
-            <button
-              onClick={() => setSubmitError('')}
-              className="text-red-800 hover:text-red-900"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

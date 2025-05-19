@@ -6,8 +6,6 @@ import Footer from './components/layout/Footer';
 import ScrollToTop from './utils/ScrollToTop';
 import HomePage from './pages/HomePage';
 import Contact from './pages/Contact';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminLogin from './pages/AdminLogin';
 
 // Import pages
 import HomeNew from './pages/HomeNew';
@@ -110,8 +108,6 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
             <Route
               path="/"
               element={

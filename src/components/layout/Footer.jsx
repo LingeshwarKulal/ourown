@@ -3,12 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logoImage from '../../assets/images/logo-ourown.svg';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
-// Log the API URL to verify environment variable is working
-console.log('API URL from environment:', import.meta.env.VITE_API_URL);
-console.log('Final API URL with fallback:', API_URL);
-
 const Footer = () => {
   const footerLinks = [
     {
