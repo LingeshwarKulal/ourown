@@ -18,8 +18,7 @@ export default defineConfig({
       protocol: 'ws',
       host: 'localhost',
     },
-  },
-  build: {
+  },  build: {
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
@@ -34,6 +33,12 @@ export default defineConfig({
       }
     },
     minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     sourcemap: true
   },
   base: '/',
