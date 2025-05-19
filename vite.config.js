@@ -6,10 +6,18 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [
     react(),
-  ],
-  server: {
+  ],  server: {
     port: 5173,
     strictPort: false,
+    fs: {
+      // Allow serving files from one level up to the project root
+      allow: ['..'],
+    },
+    // Prevent ad blockers from interfering with HMR/resource loading
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+    },
   },
   build: {
     outDir: 'dist',
