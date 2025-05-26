@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import logoImage from '../../assets/images/logo-ourown.svg';
+import logoImage from '../../assets/images/logo-ourown.png';
 
 const Footer = () => {
   const footerLinks = [
@@ -89,9 +89,13 @@ const Footer = () => {
               <motion.img 
                 src={logoImage} 
                 alt="OUROWN" 
-                className="h-14 w-auto object-contain"
-                whileHover={{ scale: 1.05 }}
-                style={{ filter: "drop-shadow(0px 2px 4px rgba(255,255,255,0.2))" }}
+                className="h-12 w-auto object-contain"
+                whileHover={{ scale: 1.02 }}
+                style={{ 
+                  filter: "brightness(100%) drop-shadow(0px 2px 4px rgba(255,255,255,0.1))",
+                  maxWidth: "180px",
+                  padding: "2px"
+                }}
               />
             </Link>
             <p className="text-white/80 text-sm leading-relaxed mb-6 max-w-sm">

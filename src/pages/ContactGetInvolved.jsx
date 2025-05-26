@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import PageHeader from '../components/shared/PageHeader';
+import { submitContactForm, submitIncubationForm } from '../services/api';
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,12 @@ function ContactForm() {
     message: ''
   });
 
+  const [status, setStatus] = useState({
+    submitting: false,
+    submitted: false,
+    error: null
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -20,18 +27,32 @@ function ContactForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      organization: '',
-      role: '',
-      message: ''
-    });
-    alert('Thank you for your message! We will be in touch soon.');
+    setStatus({ submitting: true, submitted: false, error: null });
+
+    try {
+      await submitContactForm(formData);
+      setStatus({ submitting: false, submitted: true, error: null });
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        organization: '',
+        role: '',
+        message: ''
+      });
+    } catch (error) {
+      setStatus({ 
+        submitting: false, 
+        submitted: false, 
+        error: error.message || 'An error occurred. Please try again.'
+      });
+    }
+  };
+
+  const handleCloseMessage = () => {
+    setStatus(prev => ({ ...prev, submitted: false }));
   };
 
   return (
@@ -46,6 +67,33 @@ function ContactForm() {
       <div className="fancy-separator mb-6 max-w-xs"></div>
       <p className="text-gray-600 mb-6">Whether you're curious about our services, need bespoke support, or simply want to say hello, drop us a line.</p>
       
+      {status.submitted && (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 relative"
+        >
+          <div className="pr-8">
+            Thank you for your message! We will be in touch soon.
+          </div>
+          <button
+            onClick={handleCloseMessage}
+            className="absolute top-4 right-4 text-green-600 hover:text-green-800"
+            aria-label="Close message"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </motion.div>
+      )}
+
+      {status.error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          {status.error}
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div className="">
@@ -58,6 +106,7 @@ function ContactForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             />
           </div>
           <div className="">
@@ -70,6 +119,7 @@ function ContactForm() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             />
           </div>
         </div>
@@ -83,6 +133,7 @@ function ContactForm() {
               value={formData.organization}
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
+              disabled={status.submitting}
             />
           </div>
           <div className="">
@@ -94,6 +145,7 @@ function ContactForm() {
               value={formData.role}
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
+              disabled={status.submitting}
             />
           </div>
         </div>
@@ -106,13 +158,17 @@ function ContactForm() {
             onChange={handleChange}
             className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input h-32"
             required
+            disabled={status.submitting}
           ></textarea>
         </div>
         <button 
           type="submit" 
           className="btn-primary inline-flex items-center relative overflow-hidden group"
+          disabled={status.submitting}
         >
-          <span className="relative z-10">Send Message</span>
+          <span className="relative z-10">
+            {status.submitting ? 'Sending...' : 'Send Message'}
+          </span>
           <span className="absolute top-0 left-0 w-full h-0 bg-indigo-700 group-hover:h-full transition-all duration-300 ease-in-out z-0"></span>
           <svg className="w-5 h-5 ml-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -122,6 +178,8 @@ function ContactForm() {
     </motion.div>
   );
 }
+
+export { ContactForm };
 
 function OfficeLocations() {
   return (
@@ -229,144 +287,6 @@ function OfficeLocations() {
   );
 }
 
-function PartnerWithUs() {
-  const [formData, setFormData] = useState({
-    organizationName: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    partnershipInterest: '',
-    proposal: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Partnership form submitted:', formData);
-    // Reset form
-    setFormData({
-      organizationName: '',
-      contactPerson: '',
-      email: '',
-      phone: '',
-      partnershipInterest: '',
-      proposal: ''
-    });
-    alert('Thank you for your partnership request! Our team will review and contact you soon.');
-  };
-
-  return (
-    <motion.div 
-      className="glassmorphism rounded-xl p-8 shadow-lg h-full"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-gradient">Partner with Us</h2>
-      <div className="fancy-separator mb-6 max-w-xs"></div>
-      <p className="text-gray-600 mb-6">Corporate, government, or institutional partner? Let's explore co-innovation, CSR collaborations, and strategic alliances.</p>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="organizationName" className="block text-gray-700 mb-2 font-medium">Organization Name*</label>
-          <input
-            type="text"
-            id="organizationName"
-            name="organizationName"
-            value={formData.organizationName}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="contactPerson" className="block text-gray-700 mb-2 font-medium">Contact Person & Role*</label>
-          <input
-            type="text"
-            id="contactPerson"
-            name="contactPerson"
-            value={formData.contactPerson}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            required
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label htmlFor="email" className="block text-gray-700 mb-2 font-medium">Email*</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-gray-700 mb-2 font-medium">Phone*</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="partnershipInterest" className="block text-gray-700 mb-2 font-medium">Partnership Interest*</label>
-          <select
-            id="partnershipInterest"
-            name="partnershipInterest"
-            value={formData.partnershipInterest}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            required
-          >
-            <option value="">Select your interest</option>
-            <option value="CSR">CSR</option>
-            <option value="R&D">R&D</option>
-            <option value="Sponsorship">Sponsorship</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div className="mb-6">
-          <label htmlFor="proposal" className="block text-gray-700 mb-2 font-medium">Brief Proposal</label>
-          <textarea
-            id="proposal"
-            name="proposal"
-            value={formData.proposal}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input h-24"
-          ></textarea>
-        </div>
-        <button 
-          type="submit" 
-          className="btn-primary inline-flex items-center relative overflow-hidden group"
-        >
-          <span className="relative z-10">Submit Partnership Request</span>
-          <span className="absolute top-0 left-0 w-full h-0 bg-indigo-700 group-hover:h-full transition-all duration-300 ease-in-out z-0"></span>
-          <svg className="w-5 h-5 ml-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
-        </button>
-      </form>
-    </motion.div>
-  );
-}
-
 function JoinProgram() {
   const [formData, setFormData] = useState({
     companyName: '',
@@ -374,7 +294,15 @@ function JoinProgram() {
     email: '',
     industrySector: '',
     stage: '',
+    pitchDeck: '',
     motivation: ''
+  });
+
+  const [status, setStatus] = useState({
+    submitting: false,
+    submitted: false,
+    error: null,
+    applicationId: null
   });
 
   const handleChange = (e) => {
@@ -385,19 +313,65 @@ function JoinProgram() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Convert file to base64 string
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prevState => ({
+          ...prevState,
+          pitchDeck: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Incubation application submitted:', formData);
-    // Reset form
-    setFormData({
-      companyName: '',
-      founderName: '',
-      email: '',
-      industrySector: '',
-      stage: '',
-      motivation: ''
-    });
-    alert('Thank you for your application! Our team will review and contact you soon.');
+    setStatus({ submitting: true, submitted: false, error: null, applicationId: null });
+
+    try {
+      // Basic validation
+      if (!formData.companyName || !formData.founderName || !formData.email || !formData.industrySector || !formData.stage || !formData.motivation) {
+        throw new Error('Please fill in all required fields');
+      }
+
+      console.log('Submitting form data:', formData);
+      const response = await submitIncubationForm(formData);
+      console.log('Form submission response:', response);
+      
+      // Check if we have a valid response
+      if (response && (response.success || response.applicationId)) {
+        setStatus({ 
+          submitting: false, 
+          submitted: true, 
+          error: null,
+          applicationId: response.applicationId 
+        });
+        // Reset form
+        setFormData({
+          companyName: '',
+          founderName: '',
+          email: '',
+          industrySector: '',
+          stage: '',
+          pitchDeck: '',
+          motivation: ''
+        });
+      } else {
+        throw new Error(response?.message || 'Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus({ 
+        submitting: false, 
+        submitted: false, 
+        error: error.message || 'An error occurred while submitting your application. Please try again.',
+        applicationId: null
+      });
+    }
   };
 
   return (
@@ -412,6 +386,37 @@ function JoinProgram() {
       <div className="fancy-separator mb-6 max-w-xs"></div>
       <p className="text-gray-600 mb-6">Startup founder or entrepreneur? Apply to our incubation cohorts and gain access to troupes, mentors, and funding networks.</p>
       
+      {status.submitted && (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700"
+        >
+          <div className="pr-8">
+            <p className="font-medium">Application Submitted Successfully!</p>
+            <p className="mt-1">Thank you for your application! Our team will review and contact you soon.</p>
+            {status.applicationId && (
+              <p className="text-sm mt-2">Your Application ID: <span className="font-medium">{status.applicationId}</span></p>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {status.error && (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700"
+        >
+          <div className="flex items-center">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{status.error}</span>
+          </div>
+        </motion.div>
+      )}
+      
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="companyName" className="block text-gray-700 mb-2 font-medium">Company / Venture Name*</label>
@@ -423,6 +428,7 @@ function JoinProgram() {
             onChange={handleChange}
             className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
             required
+            disabled={status.submitting}
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -436,6 +442,7 @@ function JoinProgram() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             />
           </div>
           <div>
@@ -448,6 +455,7 @@ function JoinProgram() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             />
           </div>
         </div>
@@ -461,6 +469,7 @@ function JoinProgram() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             >
               <option value="">Select industry</option>
               <option value="Technology">Technology</option>
@@ -482,6 +491,7 @@ function JoinProgram() {
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
               required
+              disabled={status.submitting}
             >
               <option value="">Select stage</option>
               <option value="Idea">Idea</option>
@@ -498,8 +508,10 @@ function JoinProgram() {
               type="file"
               id="pitchDeck"
               name="pitchDeck"
+              onChange={handleFileChange}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               accept=".pdf,.ppt,.pptx"
+              disabled={status.submitting}
             />
             <svg className="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -517,71 +529,24 @@ function JoinProgram() {
             onChange={handleChange}
             className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input h-24"
             required
+            disabled={status.submitting}
             placeholder="Tell us about your venture and why you're interested in our programme..."
           ></textarea>
         </div>
         <button 
           type="submit" 
           className="btn-primary inline-flex items-center relative overflow-hidden group"
+          disabled={status.submitting}
         >
-          <span className="relative z-10">Apply Now</span>
+          <span className="relative z-10">
+            {status.submitting ? 'Submitting...' : 'Apply Now'}
+          </span>
           <span className="absolute top-0 left-0 w-full h-0 bg-indigo-700 group-hover:h-full transition-all duration-300 ease-in-out z-0"></span>
           <svg className="w-5 h-5 ml-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
         </button>
       </form>
-    </motion.div>
-  );
-}
-
-function MemberLogin() {
-  return (
-    <motion.div 
-      className="glassmorphism rounded-xl p-8 shadow-lg"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-gradient">Member Dashboard</h2>
-      <div className="fancy-separator mb-6 max-w-xs"></div>
-      <p className="text-gray-600 mb-6">Existing cohort members and partners can log in to access resources, progress dashboards, and private collaboration spaces.</p>
-      
-      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg border border-indigo-100">
-        <div className="flex flex-col md:flex-row gap-4 items-end">
-          <div className="flex-1">
-            <label htmlFor="username" className="block text-gray-700 mb-2 font-medium">Username / Email</label>
-            <input 
-              type="text" 
-              id="username"
-              placeholder="Enter your username or email" 
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            />
-          </div>
-          <div className="flex-1">
-            <label htmlFor="password" className="block text-gray-700 mb-2 font-medium">Password</label>
-            <input 
-              type="password"
-              id="password"
-              placeholder="Enter your password" 
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            />
-          </div>
-          <button className="btn-primary inline-flex items-center justify-center px-6 py-3 min-w-[120px]">
-            <span>Log In</span>
-            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-            </svg>
-          </button>
-        </div>
-        
-        <div className="mt-4 flex gap-4 justify-center">
-          <a href="#" className="text-primary hover:text-primary-dark transition-colors text-sm font-medium">Forgot Password?</a>
-          <span className="text-gray-300">•</span>
-          <a href="#" className="text-primary hover:text-primary-dark transition-colors text-sm font-medium">Request Access</a>
-        </div>
-      </div>
     </motion.div>
   );
 }
@@ -635,14 +600,10 @@ function ContactGetInvolved() {
               {/* Office Locations & Map */}
               <OfficeLocations />
               
-              {/* Partner/Join Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <PartnerWithUs />
+              {/* Join Program Section */}
+              <div className="max-w-2xl mx-auto">
                 <JoinProgram />
               </div>
-              
-              {/* Member Login */}
-              <MemberLogin />
             </div>
           </div>
         </div>

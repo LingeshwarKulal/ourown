@@ -188,137 +188,6 @@ function QuickLinks() {
   );
 }
 
-function LeadCaptureForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    organization: '',
-    role: '',
-    interest: '',
-    message: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would normally send the data to your API
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      organization: '',
-      role: '',
-      interest: '',
-      message: ''
-    });
-    alert('Thank you for your interest! We will be in touch soon.');
-  };
-
-  return (
-    <div className="section bg-gray-50" id="platform">
-      <div className="container">
-        <div className="max-w-2xl mx-auto card p-8 md:p-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">Ready to Explore OUROWN?</h2>
-          <p className="text-gray-600 text-center mb-8">Unlock exclusive insights, invitations, and personalized support. Share your details below.</p>
-          
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="block text-gray-700 mb-2 font-medium">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-gray-700 mb-2 font-medium">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="input"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="organization" className="block text-gray-700 mb-2 font-medium">Organization</label>
-                <input
-                  type="text"
-                  id="organization"
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleChange}
-                  className="input"
-                />
-              </div>
-              <div>
-                <label htmlFor="role" className="block text-gray-700 mb-2 font-medium">Role</label>
-                <input
-                  type="text"
-                  id="role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="input"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="interest" className="block text-gray-700 mb-2 font-medium">Area of Interest</label>
-              <select
-                id="interest"
-                name="interest"
-                value={formData.interest}
-                onChange={handleChange}
-                className="input"
-                required
-              >
-                <option value="">Select an option</option>
-                <option value="startup">Startup Incubation</option>
-                <option value="corporate">Corporate Partnership</option>
-                <option value="government">Government Programs</option>
-                <option value="investor">Investment Opportunities</option>
-                <option value="mentor">Mentorship</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-gray-700 mb-2 font-medium">Message (optional)</label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className="input h-32 resize-none"
-              />
-            </div>
-            <button 
-              type="submit" 
-              className="btn-primary w-full py-4 mt-4"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function ValuePropositionBlocks() {
   return (
     <div className="section bg-white" id="ecosystem">
@@ -492,13 +361,12 @@ function PartnerLogos() {
 
 function Home() {
   return (
-    <div className="pt-16"> {/* Add padding-top to account for fixed header */}
+    <div className="bg-gray-50">
       <HeroSection />
       <QuickLinks />
       <ValuePropositionBlocks />
       <PlatformHighlights />
       <TestimonialsCarousel />
-      <LeadCaptureForm />
       <PartnerLogos />
     </div>
   );

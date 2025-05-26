@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import PageHeader from '../components/shared/PageHeader';
+import { submitPartnershipForm } from '../services/api';
 
 function PartnerApply() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,31 @@ function PartnerApply() {
     proposal: ''
   });
 
+  const [status, setStatus] = useState({
+    submitting: false,
+    submitted: false,
+    error: null
+  });
+
+  // Add useEffect to handle auto-hiding of success message
+  useEffect(() => {
+    let timeoutId;
+    if (status.submitted) {
+      timeoutId = setTimeout(() => {
+        setStatus(prev => ({ ...prev, submitted: false }));
+      }, 5000); // 5 seconds
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [status.submitted]);
+
+  const handleCloseMessage = () => {
+    setStatus(prev => ({ ...prev, submitted: false }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -23,21 +49,31 @@ function PartnerApply() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Partnership application submitted:', formData);
-    // Reset form
-    setFormData({
-      organizationName: '',
-      contactPerson: '',
-      email: '',
-      phone: '',
-      partnershipType: '',
-      industry: '',
-      companySize: '',
-      proposal: ''
-    });
-    alert('Thank you for your partnership application! Our team will review and contact you soon.');
+    setStatus({ submitting: true, submitted: false, error: null });
+
+    try {
+      await submitPartnershipForm(formData);
+      setStatus({ submitting: false, submitted: true, error: null });
+      // Reset form
+      setFormData({
+        organizationName: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        partnershipType: '',
+        industry: '',
+        companySize: '',
+        proposal: ''
+      });
+    } catch (error) {
+      setStatus({ 
+        submitting: false, 
+        submitted: false, 
+        error: error.message || 'An error occurred. Please try again.'
+      });
+    }
   };
 
   return (
@@ -75,6 +111,37 @@ function PartnerApply() {
               <h2 className="text-2xl font-bold mb-4 text-gradient">Partnership Application Form</h2>
               <div className="fancy-separator mb-6 max-w-xs"></div>
               <p className="text-gray-600 mb-8">Complete the form below to apply for partnership with OUROWN. Our team will review your application and contact you to discuss next steps.</p>
+
+              <AnimatePresence>
+                {status.submitted && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 relative"
+                  >
+                    <div className="pr-8">
+                      Thank you for your partnership application! Our team will review and contact you soon.
+                    </div>
+                    <button
+                      onClick={handleCloseMessage}
+                      className="absolute top-4 right-4 text-green-600 hover:text-green-800 transition-colors"
+                      aria-label="Close message"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {status.error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                  {status.error}
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -212,8 +279,11 @@ function PartnerApply() {
                   <button 
                     type="submit" 
                     className="btn-primary inline-flex items-center relative overflow-hidden group"
+                    disabled={status.submitting}
                   >
-                    <span className="relative z-10">Submit Application</span>
+                    <span className="relative z-10">
+                      {status.submitting ? 'Submitting...' : 'Submit Application'}
+                    </span>
                     <span className="absolute top-0 left-0 w-full h-0 bg-indigo-700 group-hover:h-full transition-all duration-300 ease-in-out z-0"></span>
                     <svg className="w-5 h-5 ml-2 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

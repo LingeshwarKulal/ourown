@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import PageHeader from '../components/shared/PageHeader';
 import CardGrid from '../components/shared/CardGrid';
 import TestimonialsSlider from '../components/shared/TestimonialsSlider';
-import ContactForm from '../components/shared/ContactForm';
 
 function AboutUs() {
   // Values data for CardGrid

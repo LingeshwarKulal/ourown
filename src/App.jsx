@@ -5,7 +5,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollToTop from './utils/ScrollToTop';
 import HomePage from './pages/HomePage';
-import Contact from './pages/Contact';
+import ContactGetInvolved from './pages/ContactGetInvolved';
 
 // Import pages
 import HomeNew from './pages/HomeNew';
@@ -14,7 +14,7 @@ import Ecosystem from './pages/Ecosystem';
 import SolutionsServices from './pages/SolutionsServices';
 import AudienceHub from './pages/AudienceHub';
 import Resources from './pages/Resources';
-import ContactGetInvolved from './pages/ContactGetInvolved';
+
 import SuccessStories from './pages/SuccessStories';
 import PartnerPortal from './pages/PartnerPortal';
 import Careers from './pages/Careers';
@@ -107,7 +107,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<ContactGetInvolved />} />
             <Route
               path="/"
               element={

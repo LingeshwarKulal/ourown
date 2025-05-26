@@ -19,7 +19,7 @@ const GetInTouch = () => {
             Our team can help you find the right resources and create customized solutions for your specific needs
           </p>
           <Link
-            to="/contact"
+            to="/contact-get-involved"
             className="inline-flex items-center px-8 py-4 bg-white rounded-full text-[#7C3AED] font-medium text-xl hover:bg-opacity-95 transition-all duration-300 group"
           >
             Get in Touch

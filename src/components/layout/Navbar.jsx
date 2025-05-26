@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import logoImage from '../../assets/images/logo-ourown.svg';
+import logoImage from '../../assets/images/logo-ourown.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -103,17 +103,20 @@ const Navbar = () => {
             <motion.img 
               src={logoImage} 
               alt="OUROWN" 
-              className="h-12 md:h-14 w-auto object-contain transition-all duration-300"
-              initial={{ filter: "brightness(1)" }}
+              className={`h-12 md:h-14 w-auto object-contain transition-all duration-300 ${
+                isScrolled ? 'brightness-100' : 'brightness-100'
+              }`}
+              initial={{ opacity: 1 }}
               whileHover={{ 
-                scale: 1.05,
-                filter: isScrolled ? "drop-shadow(0px 1px 4px rgba(0,0,0,0.2))" : "drop-shadow(0px 2px 4px rgba(255,255,255,0.3))"
+                scale: 1.02,
+                filter: isScrolled ? "drop-shadow(0px 2px 4px rgba(0,0,0,0.1))" : "drop-shadow(0px 2px 4px rgba(255,255,255,0.2))"
               }}
               style={{ 
                 filter: isScrolled 
-                  ? "drop-shadow(0px 1px 2px rgba(0,0,0,0.1))" 
-                  : "drop-shadow(0px 2px 4px rgba(255,255,255,0.3))",
-                maxHeight: isScrolled ? "50px" : "56px"
+                  ? "drop-shadow(0px 1px 2px rgba(0,0,0,0.05))" 
+                  : "drop-shadow(0px 2px 4px rgba(255,255,255,0.1))",
+                maxWidth: "180px",
+                padding: "2px"
               }} 
             />
           </Link>

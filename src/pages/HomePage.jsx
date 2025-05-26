@@ -39,93 +39,6 @@ const QuickLinks = () => {
   );
 };
 
-const LeadCaptureForm = () => {
-  return (
-    <motion.div 
-      className="glassmorphism rounded-xl p-8 max-w-md mx-auto"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-gradient">Ready to Explore OUROWN?</h2>
-      <div className="fancy-separator mb-6 max-w-xs"></div>
-      <p className="text-gray-600 mb-6">Unlock exclusive insights, invitations, and personalized support. Share your details below.</p>
-      
-      <form className="space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-gray-700 mb-2 font-medium">Name</label>
-          <input
-            type="text"
-            id="name"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            placeholder="Your name"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-gray-700 mb-2 font-medium">Email</label>
-          <input
-            type="email"
-            id="email"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            placeholder="Your email address"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="organization" className="block text-gray-700 mb-2 font-medium">Organization</label>
-          <input
-            type="text"
-            id="organization"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            placeholder="Your organization"
-          />
-        </div>
-        <div>
-          <label htmlFor="role" className="block text-gray-700 mb-2 font-medium">Role</label>
-          <input
-            type="text"
-            id="role"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-            placeholder="Your role"
-          />
-        </div>
-        <div>
-          <label htmlFor="interest" className="block text-gray-700 mb-2 font-medium">Area of Interest</label>
-          <select
-            id="interest"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input"
-          >
-            <option value="">Select your interest</option>
-            <option value="startup">Startup Incubation</option>
-            <option value="corporate">Corporate Innovation</option>
-            <option value="investor">Investment Opportunities</option>
-            <option value="government">Government Programs</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="message" className="block text-gray-700 mb-2 font-medium">Message (optional)</label>
-          <textarea
-            id="message"
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary input h-24"
-            placeholder="Your message"
-          ></textarea>
-        </div>
-        <button 
-          type="submit" 
-          className="btn-primary w-full"
-        >
-          Submit
-        </button>
-        <p className="text-xs text-gray-500 text-center mt-4">
-          By submitting, you agree to our <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>
-        </p>
-      </form>
-    </motion.div>
-  );
-};
-
 const PlatformHighlights = () => {
   const highlights = [
     {
@@ -379,23 +292,19 @@ const HomePage = () => {
       {/* Platform Highlights */}
       <PlatformHighlights />
       
-      {/* Two Column: Lead Capture Form + Testimonials */}
+      {/* Testimonials Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <LeadCaptureForm />
-            
-            <div className="testimonials-wrapper">
-              <h2 className="section-title mb-6 text-center">What Our Partners Say</h2>
-              <div className="fancy-separator mb-8 mx-auto max-w-xs"></div>
-              <TestimonialsSlider 
-                testimonials={testimonials} 
-                style="gradient" 
-                autoplay={true} 
-                autoplaySpeed={5000} 
-                showHeading={false}
-              />
-            </div>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="section-title mb-6 text-center">What Our Partners Say</h2>
+            <div className="fancy-separator mb-8 mx-auto max-w-xs"></div>
+            <TestimonialsSlider 
+              testimonials={testimonials} 
+              style="gradient" 
+              autoplay={true} 
+              autoplaySpeed={5000} 
+              showHeading={false}
+            />
           </div>
         </div>
       </section>

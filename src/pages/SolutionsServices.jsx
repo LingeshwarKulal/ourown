@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import PageHeader from '../components/shared/PageHeader';
 import CardGrid from '../components/shared/CardGrid';
 import TestimonialsSlider from '../components/shared/TestimonialsSlider';
-import ContactForm from '../components/shared/ContactForm';
+import { ContactForm } from './ContactGetInvolved';
 
 const SolutionsServices = () => {
   // Incubation services data
@@ -406,58 +406,6 @@ const SolutionsServices = () => {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        </div>
-      </div>
-      
-      {/* Contact Form Section with enhanced styling */}
-      <div className="py-16 bg-white relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-indigo-50 rounded-bl-full opacity-70"></div>
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-purple-50 rounded-tr-full opacity-70"></div>
-        
-        <div className="container mx-auto relative z-10">
-          <div className="text-center mb-10">
-            <motion.h2 
-              className="section-title"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              Ready to Accelerate Your Venture?
-            </motion.h2>
-            <motion.p 
-              className="section-subtitle"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              Schedule a discovery call with our team to discuss your specific needs
-            </motion.p>
-            <motion.div 
-              className="fancy-separator mb-0 mx-auto max-w-xs"
-              initial={{ opacity: 0, width: 0 }}
-              whileInView={{ opacity: 1, width: "80px" }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            ></motion.div>
-          </div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <ContactForm 
-              style="gradient"
-              formTitle="Contact Our Solutions Team"
-              formSubtitle="Tell us about your venture and the challenges you're facing."
-              categories={["Program Interest", "Service Inquiry", "Assessment Request", "Partnership Opportunity"]}
-            />
           </motion.div>
         </div>
       </div>
