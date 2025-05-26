@@ -6,33 +6,49 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [
     react(),
-  ],
-  server: {
-    port: 5173,
-    strictPort: false,
-    proxy: {
-      '/ourown-main/api': {
-        target: 'http://localhost',
-        changeOrigin: true,
-        secure: false,
+    // Add a plugin to run before the build to prevent Rollup errors
+    {
+      name: 'skip-rollup-native-warnings',
+      enforce: 'pre',
+      buildStart() {
+        // Set environment variable to skip native module warnings
+        process.env.ROLLUP_SKIP_NAPI_WARN = 'true';
       }
     }
+  ],  server: {
+    port: 5173,
+    strictPort: false,
+    fs: {
+      // Allow serving files from one level up to the project root
+      allow: ['..'],
+    },
+    // Prevent ad blockers from interfering with HMR/resource loading
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+    },
   },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
       },
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
+          vendor: ['react', 'react-dom', 'react-router-dom']
         }
       }
     },
-    minify: 'terser',
     sourcemap: true
   },
   base: '/',

@@ -9,5 +9,10 @@
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*\\.(js|css|svg|png|jpg|jpeg|gif|ico|json))", "dest": "/$1" },
     { "src": "/.*", "dest": "/index.html" }
-  ]
-} 
+  ],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max_old_space_size=4096"
+    }
+  }
+}
