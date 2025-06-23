@@ -1,0 +1,7 @@
+# OUROWN Security Policy
+Contact: mailto:security@ourown.co.in
+Expires: 2026-06-23T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://ourown.co.in/.well-known/security.txt
+Policy: https://ourown.co.in/security-policy
+Hiring: https://ourown.co.in/careers 

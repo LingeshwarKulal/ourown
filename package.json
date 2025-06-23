@@ -1,0 +1,37 @@
+{
+  "name": "ourown-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "OUROWN frontend service",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "clean": "rimraf node_modules package-lock.json dist",
+    "vercel-build": "vite build"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "framer-motion": "^11.0.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "react-router-dom": "^6.22.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.15",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.31",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.9.6",
+    "tailwindcss": "^3.3.0",
+    "terser": "^5.39.2",
+    "vite": "^5.1.3"
+  },
+  "overrides": {
+    "rollup": "^4.9.6"
+  }
+}
